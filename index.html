@@ -1,1 +1,289 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base target="_top">
+  <style>
+    :root { --primary: #111; --bg: #fafafa; --border: #ddd; --focus: #d4a3a3; }
+    
+    body { background-color: #f4f4f4; margin: 0; padding: 20px; }
+    
+    .master-form { 
+      max-width: 680px; 
+      margin: 40px auto; 
+      font-family: 'Helvetica Neue', Arial, "PingFang TC", "Microsoft JhengHei", sans-serif; 
+      background: #fff; 
+      padding: 40px; 
+      box-shadow: 0 12px 40px rgba(0,0,0,0.08); 
+      border-radius: 12px; 
+    }
 
+    .brand-logo { 
+      max-width: 240px; 
+      display: block; 
+      margin: 0 auto 30px auto; 
+      filter: drop-shadow(0 4px 8px rgba(0,0,0,0.05));
+    }
+
+    .master-form h2 { 
+      font-size: 26px; 
+      color: var(--primary); 
+      border-bottom: 2px solid var(--primary); 
+      padding-bottom: 12px; 
+      margin-top: 0; 
+      text-align: center;
+      letter-spacing: 1px;
+    }
+
+    .master-form .section-title { 
+      font-size: 18px; 
+      font-weight: 700; 
+      margin: 35px 0 16px; 
+      color: var(--primary); 
+      display: flex; 
+      align-items: center; 
+    }
+
+    .master-form .section-title::before { 
+      content: ""; 
+      display: inline-block; 
+      width: 10px; 
+      height: 10px; 
+      background: var(--focus); 
+      margin-right: 12px; 
+      border-radius: 2px; 
+    }
+
+    .form-group { margin-bottom: 28px; }
+    .form-group label { display: block; font-weight: 600; margin-bottom: 8px; font-size: 15px; color: #222; }
+    .form-group .hint { font-size: 13px; color: #666; margin-bottom: 12px; line-height: 1.5; }
+
+    .form-group input[type="text"], 
+    .form-group textarea { 
+      width: 100%; 
+      padding: 14px 16px; 
+      border: 1px solid var(--border); 
+      border-radius: 6px; 
+      box-sizing: border-box; 
+      font-size: 15px; 
+      transition: all 0.3s ease; 
+      background: var(--bg); 
+    }
+
+    .form-group input[type="text"]:focus, 
+    .form-group textarea:focus { 
+      border-color: var(--focus); 
+      outline: none; 
+      background: #fff; 
+      box-shadow: 0 0 0 3px rgba(212, 163, 163, 0.2); 
+    }
+
+    .radio-group { display: flex; flex-direction: column; gap: 12px; margin-top: 12px; }
+    .radio-group label { font-weight: 500; cursor: pointer; display: flex; align-items: center; font-size: 15px; }
+    .radio-group input { margin-right: 10px; transform: scale(1.2); }
+
+    .submit-btn { 
+      background-color: var(--primary); 
+      color: #fff; 
+      border: none; 
+      padding: 18px; 
+      font-size: 16px; 
+      cursor: pointer; 
+      width: 100%; 
+      font-weight: bold; 
+      border-radius: 6px; 
+      transition: all 0.3s ease; 
+      margin-top: 24px; 
+      letter-spacing: 2px;
+    }
+
+    .submit-btn:hover:not(:disabled) { 
+      background-color: #333; 
+      transform: translateY(-2px); 
+      box-shadow: 0 6px 15px rgba(0,0,0,0.15); 
+    }
+
+    .submit-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+    
+    .draft-notice {
+      text-align: center;
+      font-size: 13px;
+      color: #888;
+      margin-top: 15px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="master-form">
+  <img src="https://lh3.googleusercontent.com/d/1nXa9E9-EOFEzt8A1fxaZVEfuIRCSiJyo" alt="露比設計" class="brand-logo">
+  
+  <h2>品牌深度探索問卷</h2>
+  
+  <form id="brand-strategy-form">
+    <div class="section-title">0. 品牌基本資訊</div>
+    <div class="form-group">
+      <label>聯絡人姓名 / 職稱</label>
+      <input type="text" name="contactName" required>
+    </div>
+    <div class="form-group">
+      <label>品牌 / 公司名稱</label>
+      <input type="text" name="companyName" required>
+    </div>
+    <div class="form-group">
+      <label>所屬產業</label>
+      <div class="hint">例如：科技軟體、餐飲生活、金融服務、美業...</div>
+      <input type="text" name="industry" required>
+    </div>
+    
+    <div class="section-title">1. 品牌核心與商業痛點</div>
+    <div class="form-group">
+      <label>品牌特質個性</label>
+      <div class="hint">你想像，如果你的品牌如果是一個人？那他的個性會是什麼？(EX: Chanel：優雅的獨裁者、Nike：勇於挑戰自我 ....)</div>
+      <input type="text" name="persona" required>
+    </div>
+    <div class="form-group">
+      <label>品牌的挑戰</label>
+      <div class="hint">創立這個品牌初衷？目前品牌在推廣中遇到了什麼阻礙？是否精準傳遞產品的價值？</div>
+      <textarea name="businessPain" rows="2" required></textarea>
+    </div>
+
+    <div class="section-title">2. 使命與未來願景</div>
+    <div class="form-group">
+      <label>未來的期望</label>
+      <div class="hint">五年後，當人們提到您的品牌，第一時間他們的描述會是什麼？(Ex:50嵐，手搖飲的霸主)</div>
+      <input type="text" name="visionAdjective" required>
+    </div>
+    <div class="form-group">
+      <label>品牌核心動機</label>
+      <div class="radio-group">
+        <label><input type="radio" name="coreMotivation" value="為客戶解決需求 (例如：阿里巴巴，讓天下沒有難做的生意)" required> 為客戶解決需求（例如：阿里巴巴，讓天下沒有難做的生意）</label>
+        <label><input type="radio" name="coreMotivation" value="使客戶獲得快樂與感官體驗 (例如：Disney樂園，地球上最快樂的地方)"> 使客戶獲得快樂與感官體驗（例如：Disney樂園，地球上最快樂的地方）</label>
+        <label><input type="radio" name="coreMotivation" value="與客戶建立信任的關係 (例如：遠傳，只有遠傳、沒有距離)"> 與客戶建立信任的關係（例如：遠傳，只有遠傳、沒有距離）</label>
+      </div>
+    </div>
+
+    <div class="section-title">3. 核心價值與品牌忠誠度</div>
+    <div class="form-group">
+      <label>品牌的情感黏著點</label>
+      <div class="hint">如果你的品牌明天就要消失了，你認為哪一類的客戶最有可能感到難過？</div>
+      <textarea name="tribeLoyalty" rows="2" required></textarea>
+    </div>
+
+    <div class="section-title">4. 感官體驗與美學突破</div>
+    <div class="form-group">
+      <label>品牌色調</label>
+      <div class="hint">你希望你的品牌帶給人們什麼視覺感受？（亮或暗、鮮明或神秘、溫暖或熱情？）</div>
+      <input type="text" name="emotionalImprint" required>
+    </div>
+    <div class="form-group">
+      <label>突破框架</label>
+      <div class="hint">在認知你的品牌同行中，有哪些他們經營市場的狀態、或是品牌的印象，是你想要解決或是創新的？</div>
+      <textarea name="breakRules" rows="2" required></textarea>
+    </div>
+
+    <button type="submit" class="submit-btn">送出資料，開啟品牌重塑之旅</button>
+    <div class="draft-notice">💡 系統會自動為您暫存輸入內容，關閉網頁也不會遺失。</div>
+  </form>
+</div>
+
+<script>
+  const form = document.getElementById('brand-strategy-form');
+  const storageKey = 'rubyDesignFormDraft'; 
+
+  
+  let submitTimer = null;
+  let countdownInterval = null;
+  let isCountingDown = false;
+  const originalButtonText = '送出資料，開啟品牌重塑之旅';
+
+  
+  document.addEventListener('DOMContentLoaded', function() {
+    const savedDraft = localStorage.getItem(storageKey);
+    if (savedDraft) {
+      try {
+        const data = JSON.parse(savedDraft);
+        for (const key in data) {
+          const field = form.elements[key];
+          if (field) {
+            if (field.type === 'radio' || (field.length && field[0].type === 'radio')) {
+              const radio = document.querySelector(`input[name="${key}"][value="${data[key]}"]`);
+              if (radio) radio.checked = true;
+            } else {
+              field.value = data[key];
+            }
+          }
+        }
+      } catch (e) {
+        console.error("讀取草稿失敗", e);
+      }
+    }
+  });
+
+  
+  form.addEventListener('input', function() {
+    const formData = new FormData(form);
+    const data = Object.fromEntries(formData.entries());
+    localStorage.setItem(storageKey, JSON.stringify(data));
+  });
+
+  
+  form.addEventListener('submit', function(e) {
+    e.preventDefault(); 
+    
+    const btn = form.querySelector('.submit-btn');
+    
+    
+    if (isCountingDown) {
+      clearTimeout(submitTimer);
+      clearInterval(countdownInterval);
+      isCountingDown = false;
+      btn.innerText = originalButtonText; 
+      return; 
+    }
+
+    
+    isCountingDown = true;
+    let countdown = 3;
+    btn.innerText = `準備送出... 點此取消 (${countdown})`;
+
+    
+    countdownInterval = setInterval(function() {
+      countdown--;
+      if (countdown > 0 && isCountingDown) {
+        btn.innerText = `準備送出... 點此取消 (${countdown})`;
+      }
+    }, 1000);
+
+    
+    submitTimer = setTimeout(function() {
+      clearInterval(countdownInterval);
+      isCountingDown = false; 
+      
+      
+      btn.innerText = '品牌脈絡解析歸檔中...';
+      btn.disabled = true;
+
+      const formData = new FormData(form);
+      const data = Object.fromEntries(formData.entries());
+      
+      
+      google.script.run
+        .withSuccessHandler(function(response) {
+          alert('感謝您的深度分享！我們已收到您的品牌脈絡，將盡快為您聯繫。');
+          form.reset(); 
+          localStorage.removeItem(storageKey); 
+          btn.innerText = originalButtonText;
+          btn.disabled = false;
+        })
+        .withFailureHandler(function(error) {
+          alert('傳送失敗，請稍後再試：' + error);
+          btn.innerText = originalButtonText;
+          btn.disabled = false;
+        })
+        .processForm(data); 
+    }, 3000); 
+  });
+</script>
+
+</body>
+</html>
