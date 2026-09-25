@@ -3,6 +3,7 @@
 <head>
   <base target="_top">
   <style>
+     
     :root { --primary: #111; --bg: #fafafa; --border: #ddd; --focus: #d4a3a3; }
     
     body { background-color: #f4f4f4; margin: 0; padding: 20px; }
@@ -187,6 +188,12 @@
 </div>
 
 <script>
+  
+  
+  
+  
+  const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwVsmy1fmPeDQ7mWW_54pTBNhy3TTUpUb1CnAQQAOf5q8barqLOkzU_9BBkSDjhDfgf/exec"; 
+  
   const form = document.getElementById('brand-strategy-form');
   const storageKey = 'rubyDesignFormDraft'; 
 
@@ -229,9 +236,7 @@
   
   form.addEventListener('submit', function(e) {
     e.preventDefault(); 
-    
     const btn = form.querySelector('.submit-btn');
-    
     
     if (isCountingDown) {
       clearTimeout(submitTimer);
@@ -241,12 +246,10 @@
       return; 
     }
 
-    
     isCountingDown = true;
     let countdown = 3;
     btn.innerText = `準備送出... 點此取消 (${countdown})`;
 
-    
     countdownInterval = setInterval(function() {
       countdown--;
       if (countdown > 0 && isCountingDown) {
@@ -254,11 +257,9 @@
       }
     }, 1000);
 
-    
     submitTimer = setTimeout(function() {
       clearInterval(countdownInterval);
       isCountingDown = false; 
-      
       
       btn.innerText = '品牌脈絡解析歸檔中...';
       btn.disabled = true;
@@ -267,20 +268,60 @@
       const data = Object.fromEntries(formData.entries());
       
       
-      google.script.run
-        .withSuccessHandler(function(response) {
-          alert('感謝您的深度分享！我們已收到您的品牌脈絡，將盡快為您聯繫。');
-          form.reset(); 
-          localStorage.removeItem(storageKey); 
-          btn.innerText = originalButtonText;
-          btn.disabled = false;
+      const handleSuccess = () => {
+        alert('感謝您的深度分享！我們已收到您的品牌脈絡，將盡快為您聯繫。');
+        form.reset(); 
+        localStorage.removeItem(storageKey); 
+        btn.innerText = originalButtonText;
+        btn.disabled = false;
+      };
+
+      const handleFailure = (error) => {
+        alert('傳送失敗，請稍後再試：' + error);
+        btn.innerText = originalButtonText;
+        btn.disabled = false;
+      };
+
+      
+      
+      
+      if (typeof google !== 'undefined' && google.script && google.script.run) {
+        
+        console.log("使用 GAS 原生物件進行傳輸");
+        google.script.run
+          .withSuccessHandler(handleSuccess)
+          .withFailureHandler(handleFailure)
+          .processForm(data); 
+
+      } else {
+        
+        console.log("使用 Fetch API 進行外部傳輸");
+        
+        if (GAS_WEB_APP_URL === "請在此貼上您的_GAS_網頁應用程式_URL") {
+          handleFailure("系統未設定 GAS Web App 網址");
+          return;
+        }
+
+        
+        fetch(GAS_WEB_APP_URL, {
+          method: 'POST',
+          body: JSON.stringify(data),
+          headers: {
+            'Content-Type': 'text/plain;charset=utf-8',
+          }
         })
-        .withFailureHandler(function(error) {
-          alert('傳送失敗，請稍後再試：' + error);
-          btn.innerText = originalButtonText;
-          btn.disabled = false;
+        .then(response => response.json()) 
+        .then(result => {
+          if (result.status === "success") {
+            handleSuccess();
+          } else {
+            handleFailure("伺服器回傳錯誤");
+          }
         })
-        .processForm(data); 
+        .catch(error => {
+          handleFailure(error);
+        });
+      }
     }, 3000); 
   });
 </script>
